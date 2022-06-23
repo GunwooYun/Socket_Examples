@@ -19,11 +19,11 @@ void* thread_inc(void* arg){
 
 void* thread_des(void* arg){
 	int i;
-		pthread_mutex_lock(&mutex);
 	for(i = 0; i<50000000; i++){
+	pthread_mutex_lock(&mutex);
 		num-= 1;
+	pthread_mutex_unlock(&mutex);
 	}
-		pthread_mutex_unlock(&mutex);
 	return NULL;
 }
 
@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
 	pthread_t threads_id[NUM_THREAD]; // Delcare array of thread
 	int i;
 
+	/* int pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr); */
 	pthread_mutex_init(&mutex, NULL);
 
 	printf("sizeof long long : %ld\n", sizeof(long long));
@@ -47,6 +48,7 @@ int main(int argc, char *argv[])
 	}
 
 	printf("result : %lld \n", num);
+	/* int pthread_mutex_destroy(pthread_mutex_t *mutex) */
 	pthread_mutex_destroy(&mutex);
 	return 0;
 }
