@@ -5,9 +5,13 @@
 #include <arpa/inet.h> // htonl(), INADDR_ANY
 #include <string.h>
 
+#define BUF_SIZE 100
+
 int main(int argc, char* argv[]){
 	int serv_sock, clnt_sock; // socket file descriptor
 	unsigned short port;
+
+	char recv_msg[BUF_SIZE] = {0};
 
 	/* Create socket, open file, return file descriptor number */
 	serv_sock = socket(PF_INET, SOCK_STREAM, 0);
@@ -26,7 +30,7 @@ int main(int argc, char* argv[]){
 
 	struct sockaddr_in serv_addr; // address information struct
 
-	memset(&serv_addr, 0, sizeof(serv_addr)); // init 0
+	//memset(&serv_addr, 0, sizeof(serv_addr)); // init 0
 	
 	serv_addr.sin_family = AF_INET;
 	serv_addr.sin_port = htons(atoi(argv[1]));
@@ -54,8 +58,18 @@ int main(int argc, char* argv[]){
 		printf("accept() error\n");
 		exit(1);
 	}
-	char msg[100] = "hello, world";
-	write(clnt_sock, msg, sizeof(msg));
+	
+	int recv_len = 0;
+	
+	while((recv_len = read(clnt_sock, recv_msg, BUF_SIZE))!=0){
+		recv_msg[recv_len] = 0; // set last index '\0'
+		printf("[CLIENT] : %s\n", recv_msg);
+	}
+
+
+
+	//char msg[100] = "hello, world";
+	//write(clnt_sock, msg, sizeof(msg));
 	//printf("server socket file descriptor number : %d\n", serv_sock);
 	//printf("client socket file descriptor number : %d\n", clnt_sock);
 
