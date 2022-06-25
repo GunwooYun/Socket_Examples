@@ -40,7 +40,7 @@ int main(int argc, char *argv[]){
 		error_handling("bind() error");
 	
 	/* listen() */
-	if(listen(serv_sock, 5) == -1)
+	if(listen(serv_sock, 1) == -1)
 		error_handling("listen() error");
 
 	clnt_adr_sz = sizeof(clnt_adr);

@@ -53,7 +53,7 @@ int main(int argc, char *argv[]){
 		error_handling("bind() error");
 
 	/* Listen Socket : make state connectable */
-	if(listen(serv_sock, 5) == -1)
+	if(listen(serv_sock, 1) == -1)
 		error_handling("listen() error");
 
 	/* Set Client Socket */
